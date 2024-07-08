@@ -2,7 +2,7 @@ anthropic==0.3.10
 azure-ai-ml
 hyperopt==0.2.7
 joblib==1.2.0
-langchain==0.0.271
+langchain==0.2.3
 matplotlib==3.2.1
 numpy==1.21.6
 openai==0.27.8
