@@ -1,0 +1,110 @@
+from azureml.core import Workspace, Dataset
+import pandas
+import json
+from ..azure_config import azure_config
+
+def get_dataset_comment() -> pandas.DataFrame:
+    """
+    Gets the version of the 'comments' dataset stored in Azure Machine Learning Studeio.
+    IMPORTANT THINGS TO NOTE:
+    - The version of 'Comment' stored in AML needs to be told to refresh / pull from the SQL store in order to be up to date
+    - The df which this returns is not in a good form, and needs to have the 'data' column unpacked to be useful.
+    """
+    workspace = config.get_workspace()
+    dataset = Dataset.get_by_name(workspace, name='Comment')
+    return dataset.to_pandas_dataframe()
+
+
+
+
+def fix_timeline(date:str):
+    """
+    Convert a date string into a timezone-naive datetime object.
+
+    Parameters:
+    date (str): A string containing a date
+
+    Returns:
+    datetime: A timezone-naive datetime object representing the input date.
+              If the conversion fails, the return value will be a NaT (Not a Time).
+    """
+    date = pandas.to_datetime(date, errors='coerce')
+    if date.tzinfo is not None:
+        date = date.tz_localize(None)
+    return date
+
+def fix_timeline_for_df(df:pandas.DataFrame) -> pandas.DataFrame:
+    """
+    Apply the fix_timeline function to the 'DateSubmitted' column of a DataFrame and sort the DataFrame by this column in descending order.
+
+    Parameters:
+    df (pandas.DataFrame): A pandas DataFrame which includes a 'DateSubmitted' column.
+
+    Returns:
+    pandas.DataFrame: The input DataFrame sorted by 'DateSubmitted' in descending order,
+                      with the 'DateSubmitted' column converted to timezone-naive datetime objects.
+    """
+    df['DateSubmitted'] = df['DateSubmitted'].apply(fix_timeline)
+    df = df.sort_values('DateSubmitted', ascending=False)
+    return df
+
+
+def add_ratings(df:pandas.DataFrame):
+    """
+    This is to handle some of the quirks of data being imported from the SQL store. Not for use with other import methods.
+    """
+    no_ratings_columns = 5
+    no_rows = len(df)
+    new_df= pandas.DataFrame(
+        columns=[
+        'Q_10001',
+        'Q_10002',
+        'Q_10003',
+        'Q_10004',
+        'Q_10005',
+        ],
+        index=df.index
+        )
+
+
+    df_rated =df.dropna(subset=['Ratings'])
+    for index, row in df_rated.iterrows():
+            data = pandas.json_normalize(row['Ratings'])
+            for i in range(len(data)):
+                key = 'Q_' + str(data['Question'][i])
+                val = data['Rating'][i]
+                new_df.loc[index, key]= val
+    return df.join(new_df, how='inner')
+
+def unpack_comments_dataframe(df: pandas.DataFrame) -> pandas.DataFrame:
+    """
+    Unpacks and transforms a DataFrame's 'Data' column containing JSON strings into a new DataFrame.
+
+    This function creates a deep copy of the input DataFrame, loads each JSON string
+    in the 'Data' column, and appends it to a list. This list of dictionaries is then
+    converted into a DataFrame which is returned.
+
+    Parameters:
+    df (pandas.DataFrame): The input DataFrame which contains a 'Data' column with JSON strings.
+
+    Returns:
+    pandas.DataFrame: A new DataFrame created from the dictionaries obtained by parsing
+                      the JSON strings in the original DataFrame's 'Data' column.
+    """
+    df_2 = df.copy(deep=True)
+    # df_2 = df_2[df_2['Status']=='Published']
+    ds = []
+    for a in df_2['Data']:
+        b = json.loads(a)
+        # print(b.items())
+        ds += [b]
+    return pandas.DataFrame(ds)
+    # ddf = ddf[ddf['Status']!='Expired']
+
+def get_and_clean_up_comment_dataset()-> pandas.DataFrame:
+    df = get_dataset_comment()
+    df = unpack_comments_dataframe(df)
+    df = df[df['Status'] != 'Removed']
+    df = fix_timeline_for_df(df)
+    df = add_ratings(df)
+    return df

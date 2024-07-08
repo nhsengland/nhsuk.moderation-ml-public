@@ -1,0 +1,40 @@
+{
+    "name": "embeddings_main_A",
+    "version": "3",
+    "environmentVariables": {},
+    "python": {
+        "userManagedDependencies": false,
+        "interpreterPath": null,
+        "condaDependenciesFile": null,
+        "baseCondaEnvironment": null
+    },
+    "docker": {
+        "enabled": false,
+        "baseImage": "mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04",
+        "baseDockerfile": null,
+        "buildContext": null,
+        "sharedVolumes": true,
+        "shmSize": null,
+        "arguments": [],
+        "baseImageRegistry": null,
+        "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+        }
+    },
+    "spark": {
+        "repositories": [],
+        "packages": [],
+        "precachePackages": true
+    },
+    "databricks": {
+        "mavenLibraries": [],
+        "pypiLibraries": [],
+        "rcranLibraries": [],
+        "jarLibraries": [],
+        "eggLibraries": []
+    },
+    "r": null,
+    "inferencingStackVersion": null,
+    "assetId": "azureml://locations/uksouth/workspaces/684a7a4a-18a2-47c5-b042-c0f2a9b3f2bb/environments/embeddings_main_A/versions/3"
+}

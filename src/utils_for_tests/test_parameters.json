@@ -1,0 +1,19 @@
+{
+    "dataset_names": [
+        "complaints_complete_cleansed_v1_reboot",
+        "complaints_dg_DanFinola_dec_reboot",
+        "published_1897_17Oct23_dynamics_copied",
+        "augmented_combined_methods_published_1897_17Oct23_dynamics_copied",
+        "dg_aug_shuffled_and_embed_complaints_dec_and_v1_reboots",
+        "published_10k_DanFinola_subset"
+    ],
+    "embeddings_model_names": [
+        "all-mpnet-base-v2",
+        "BAAI/bge-base-en"
+    ],
+    "name_of_column_to_embed": "Comment Text",
+    "number_of_rows_to_sample_when_comparing_embeddings": 100,
+    "run_ids": [
+        "168c13c2-cce7-4155-a13f-814357cceaab"
+    ]
+}

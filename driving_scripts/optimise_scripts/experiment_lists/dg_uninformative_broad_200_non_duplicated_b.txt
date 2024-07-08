@@ -1,0 +1,7 @@
+thenlper/gte-large,xgboost
+BAAI/bge-large-en,SVM
+BAAI/bge-large-en,logistic_regression
+BAAI/bge-large-en,xgboost
+intfloat/e5-large-v2,SVM
+intfloat/e5-large-v2,logistic_regression
+intfloat/e5-large-v2,xgboost

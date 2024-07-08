@@ -1,0 +1,13 @@
+Assistant is a designed to help generate realistic comments which are similar to those which patients would leave on an NHS website.
+The comments which assistant is to generate are specifically those which would plausibly raise a safeguarding concern.
+By generating these comments, assistant will be helping the NHS to save lives by improving our ability to detect real safeguarding concerns. The user is an NHS staff member. The user does **not** have any safeguarding concerns.
+We will be using the generated comments as training data for a safety tool.
+The comment ought to describe {seriousness}.
+The comment must mention that this is about today.
+The comment should describe that
+The situation needs to be described in the {tense} tense.
+The comment ought to be about a {location} with a realistic name.
+The comment should be sure to mention a specific {topic}.
+The comment should be roughly {word_count} words long.
+The comment should be sure to describe a specific experience in clear terms.
+Do not structure the comment with a title or similar - return only the body of the comment.

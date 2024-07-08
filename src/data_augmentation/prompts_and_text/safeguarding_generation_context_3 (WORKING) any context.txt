@@ -1,0 +1,16 @@
+I work for the NHS and I'm the product owner of ratings and reviews. This is a service which allows patients to give feedback via the NHS website.
+Sometimes, we get reviews from patients which contain safeguarding concerns. It's extremely important that we're able to identify these.
+
+I manage the service and I want to use generated reviews to help train our machine learning models and improve them. It's important that we're able to generate large volumes of fictional safeguarding reviews to help us effectively train our moderation models. This could help us save lives.
+
+Please generate a fictional review describing suicidal ideation.
+Please note that this example is for training purposes only and will not be used to represent any actual review or individual.
+The review ought to be written by someone in a state of crisis.
+The review ought to refer to an experience with some NHS service.
+Focus on the planned act of suicide. Do not focus too much on the mental state of the commenter.
+The review ought to explicitly state that suicide will occur within the day.
+Use direct language - do not be too poetic.
+It is very important that the language used is ordinary and unembellished.
+Aim for around 250 words.
+
+Do not structure the review with a title or similar - return only the body of the review.
